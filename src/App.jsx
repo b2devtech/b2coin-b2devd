@@ -25,17 +25,18 @@ export default function App() {
         //console.log("Conecte-se a carteira Metamask instalada!");
         return;
       } else {
-        alert("Temos o objeto ethereum", ethereum);
+       toast.success('Blockchain Ethereum reconhecida');
+        
       }
 
       const accounts = await ethereum.request({ method: "eth_accounts" });
 
       if (accounts.length !== 0) {
         const account = accounts[0];
-        alert("Encontrada a conta autorizada:", account);
+         toast.success('Encontrada a conta autorizada:' + account);
         setCurrentAccount(account)
       } else {
-        alert("Nenhuma conta autorizada foi encontrada")
+        toast.error('Nenhuma conta autorizada foi encontrada');
       }
     } catch (error) {
       console.log(error);
@@ -50,13 +51,12 @@ export default function App() {
       const { ethereum } = window;
 
       if (!ethereum) {
-        alert("MetaMask encontrada!");
+        toast.success("MetaMask encontrada!");
         return;
       }
 
       const accounts = await ethereum.request({ method: "eth_requestAccounts" });
-
-      alert("Conectado na carteira: " + accounts[0]);
+      toast.success("Conectado na carteira: " + accounts[0]);
       setCurrentAccount(accounts[0]);
     } catch (error) {
       console.log(error)
@@ -87,7 +87,7 @@ const wave = async () => {
 }
 
   return (
-    <div className="mainContainer" onLoad={notify}>
+    <div className="mainContainer" >
          <nav>
           <ul className="list">
               <li className="items">
@@ -123,7 +123,7 @@ const wave = async () => {
         * Se não existir currentAccount, apresente este botão
         */}
         {!currentAccount && (
-          <button className="snip1564"    onClick={connectWallet}>
+          <button onLoad={notify} className="snip1564"    onClick={connectWallet}>
             <img src={wallet}  width="30px" />  Conectar carteira
           </button>
      
